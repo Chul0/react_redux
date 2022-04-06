@@ -1,5 +1,9 @@
 console.clear();
 
+/*
+Action creator
+*/
+
 // People droping off a form (Action creator)
 
 const createPolicy = (name, amount) => {
@@ -31,8 +35,12 @@ const createClaim = (name, amountOfMoneyToCollect) => {
   };
 };
 
-//Reducers (Departments!)
-const claimHistory = (oldListOfClaims = [], action) => { //Reducers don't know what the data(arguments) are when it's first called(undefined) – you need to default the values - e.g., give it an empty array, integers, etc
+/*
+Reducers
+*/
+// Reducers (Departments!)
+const claimHistory = (oldListOfClaims = [], action) => { 
+  //Reducers don't know what the data(arguments) are when it's first called(undefined) – you need to default the values - e.g., give it an empty array, integers, etc
     if (action.type === 'CREATE_CLAIM') {
       //we care about this action (FORM!)
       return [...oldListOfClaims, action.payload]
@@ -64,3 +72,40 @@ if (action.type === 'CREATE_CLAIM') {
 
     return listOfPolicies;
  };
+
+//Store
+const { createStore, combineReducers } = Redux;
+//if you console.log(Redux) -> you'll see the library. ^this is desctructuring.
+
+const ourDepartments = combineReducers({
+  accounting: accounting,
+  claimHistory: claimHistory,
+  policies: policies
+});
+//^Combining all the reducers together
+
+const store = createStore(ourDepartments);
+//Create a store and pass in the combined reducers.
+
+const action = createPolicy('Alex', 20);
+store.dispatch(action);
+//^ Store has the access to the all the reducers and all the data produced by reducers.
+//dispatch(function) is the form receiver(insurance company). Dispatch takes Action(invoke actionCreator functions here) and passes it to Reducers.
+//Need to pass action -> action will be delievered to reducers.
+
+store.getState(); //You can get access to the global repository that has data(like Context)
+
+/*
+Alternative way of using store.dispatch()- no need to declare action variable
+*/
+
+store.dispatch(createPolicy('Alex', 20));
+store.dispatch(createPolicy('Jim', 30));
+store.dispatch(createPolicy('Bob', 40));
+
+store.dispatch(createClaim('Alex', 120));
+store.dispatch(createClaim('Jim', 50));
+
+store.dispatch(deletePolicy('Bob'));
+
+store.getState();
