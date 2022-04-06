@@ -45,13 +45,22 @@ const claimHistory = (oldListOfClaims = [], action) => { //Reducers don't know w
     return oldListOfClaims;
   };
   
-  const accounting = (bagOfMoney = 100, action) => {
-    if (action.type === 'CREATE_CLAIM') {
-      return bagOfMoney - action.payload.amoutOfMoneyToCollect;
-    } else if (action.type === 'CRATE_POLICY') {
-      return bagOfMoney + action.payload.amount;
+const accounting = (bagOfMoney = 100, action) => {
+if (action.type === 'CREATE_CLAIM') {
+    return bagOfMoney - action.payload.amountOfMoneyToCollect;
+  } else if (action.type === 'CREATE_POLICY') {
+    return bagOfMoney + action.payload.amount;
+  }
+   
+   return bagOfMoney;
+ };
+
+ const policies = (listOfPolicies = [], action) => {
+    if(action.type === 'CREATE_POLICY') {
+      return [...listOfPolicies, action.payload.name];
+    }else if (action.type === 'DELETE_POLICY') {
+      return listOfPolicies.filter(name => name !== action.payload.name); //reject the name that's not the same as payload.name
     }
-    
-    return bagOfMoney;
-    
-  };
+
+    return listOfPolicies;
+ };
