@@ -1,5 +1,8 @@
 import { combineReducers } from "redux";
+import postsReducers from "./postsReducers";
 
 export default combineReducers({
-    dummy: () => 10 //TODO: replace this
+    post: postsReducers
 });
+
+//Create a file for each reducer, and import it to this index.js
