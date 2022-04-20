@@ -5,7 +5,8 @@ import UserHeader from './UserHeader';
 
 class PostList extends React.Component {
     componentDidMount() {
-        this.props.fetchPosts()
+        this.props.fetchPosts();
+         //You want to fetch data from api when this cmp is mounted
     }
 
     renderList() {
