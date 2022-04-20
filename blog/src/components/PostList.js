@@ -8,11 +8,16 @@ class PostList extends React.Component {
     }
     
     render () {
+        console.log(this.props.posts);
         return <div>Post List</div>;
     }
 };
 
+const mapStateToProps = (state) => {
+    return {posts: state.posts};
+}
+
 export default connect(
-    null, //this should always be mapStateToProp eventually. null is fine as an initial setup
+    mapStateToProps, //this should always be mapStateToProps eventually. null is fine as an initial setup
     { fetchPosts }
 )(PostList);
