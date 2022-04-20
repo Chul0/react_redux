@@ -8,6 +8,7 @@ class PostList extends React.Component {
     }
 
     renderList() {
+        //renderList is a method on the class which is invoked IMMEDIATELY! and is not a CALLBACK or an event handler, so "this" already refers to the instance of the class. No arrow function or binding is necessary in this case.
         return this.props.posts.map(post => {
             return (
                 <div className='item' key={post.id}>
@@ -24,6 +25,7 @@ class PostList extends React.Component {
     }
     
     render () {
+        console.log('--api',this.props.posts)
         return <div className='ui relaxed divided list'>{this.renderList()}</div>;
     }
 };
