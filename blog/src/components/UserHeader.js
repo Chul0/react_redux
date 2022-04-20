@@ -9,8 +9,18 @@ class UserHeader extends React.Component {
     }
 
     render() {
-        return <div>User Header</div>;
+        const user = this.props.users.find((user) => user.id === this.props.userId);
+
+        if(!user) {
+            return null;
+            //when this cmp is first loaded, it will have an empty [] as it's set in usersReducer.
+        }
+        return <div className='header'>{user.name}</div>;
     }
 }
 
-export default connect(null, { fetchUser })(UserHeader);
+const mapStateToProps = (state) => {
+    return { users: state.users}
+}
+
+export default connect(mapStateToProps, { fetchUser })(UserHeader);
