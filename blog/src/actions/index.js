@@ -9,11 +9,25 @@ export const fetchPosts = () => async dispatch =>  {
     };
 
 
-export const fetchUser = id => async dispatch => {
+export const fetchUser = id => dispatch => {
+    _fetchUser(id, dispatch);
+};
+//^Since we don't have any variable.. you can omit `return`, move async dispatch right next to function name.
+//^Defining a function that is going to return a function
+
+const _fetchUser = _.memoize(async (id, dispatch) => {
     const response = await jsonPlaceholder.get(`/users/${id}`);
 
     dispatch({ type: 'FETCH_USER', payload: response.data});
-};
-//Since we don't have any variable.. you can omit `return`, move async dispatch right next to function name.
-//Defining a funciton that is going to return a funtion
+});
+//_ underscore it's a private function, other deves shouldn't touch it
 
+
+
+// export const fetchUser = _.memoize(function(id) {
+//     return _.memoize(async function(dispatch) {
+//         const response = await jsonPlaceholder.get(`/users/${id}`);
+
+//         dispatch({ type: 'FETCH_USER', payload: response.data})
+//     });
+// });
