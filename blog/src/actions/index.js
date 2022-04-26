@@ -27,18 +27,19 @@ const _fetchUserSol1 = _.memoize(async (id, dispatch) => {
 //Solution 2(to multiple requests):
 export const fetchPostsAndUsers = () => async (dispatch, getState) => {
     await dispatch(fetchPosts()); 
+
+    /*
     const userIds = _.uniq(_.map(getState().posts, 'userId'));
     console.log(userIds)
     userIds.forEach(id => dispatch(fetchUser(id)));
-    //Whenever you call back an actionCreator inside an actionCreator. You need to wrap it in dispatch.
-    //await is need to let fetchUser to make the api call first.
-    //To get the post list, you can access to getState
-
-    /*
-    1. Use lodash version of map _.map(getState().posts, 'userId') pass a userId string as a second argument so it will map getState.posts and filter it through userId
-
-    2. Use lodash to find unique id _.uniq() 
     */
+
+    //^Refactored to the below
+    _.chain(getState().posts)
+        .map('userId')
+        .uniq()
+        .forEach(id => dispatch(fetchUser(id)))
+        .value(); //you need .value() - this means execute the funcs above in loadash.
 };
 
 export const fetchUser = id => async dispatch =>{
